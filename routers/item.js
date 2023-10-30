@@ -1,5 +1,5 @@
 const express = require('express');
-const Item = require('../models/item') 
+const Item = require('../models/Item') 
 const Auth = require('../middleware/auth')
 const router = new express.Router() 
 
@@ -68,4 +68,4 @@ router.delete('/items/:id', Auth, async(req, res) => {
     }
     }) 
 
-    module.exports = router
+module.exports = router
