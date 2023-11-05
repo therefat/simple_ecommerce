@@ -53,7 +53,7 @@ userSchema.methods.generateAuthToken = async function () {
 
 //login in users
 userSchema.statics.findByCredentials = async (email, password) => {
-    const user = await User.findOne({ email })
+    const user = await User.findOne({ email })  // U line
     if (!user) {
         throw new Error('Unable to log in')
     }
@@ -73,5 +73,5 @@ userSchema.pre('save',async function(next){
     }
     next()
 })
-const Users = mongoose.model('Users', userSchema)
-module.exports = Users;
+const User = mongoose.model('User', userSchema)
+module.exports = User;
