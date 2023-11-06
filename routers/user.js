@@ -26,13 +26,14 @@ router.post('/users/login', async (req, res) => {
     try {
 
         const user = await User.findByCredentials(req.body.email, req.body.password)
-        // if(!user){
-        //     // throw new Error('User dose not match') 
+        if(!user){
+            // throw new Error('User dose not match') 
             
-        // }
+        }
         const token = await user.generateAuthToken()
-        res.setHeader('Set-Cookie','isLoggedInnn=true')
-        res.send({ user, token})
+        
+        // res.send({ user, token})
+        res.json({token: token})
         console.log('login')
         
     } catch (Error) {

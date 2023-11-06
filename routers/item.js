@@ -4,15 +4,22 @@ const Auth = require('../middleware/auth')
 const router = new express.Router() 
 
 router.post('/items',Auth, async(req,res) => {
+    console.log(req.body)
+   
+    console.log(req.user._id)
     try{
-        const newItem = newItem({
-            ...req.body,
-            owner: req.user._id
+        const newItem = new Item({
+            
+            owner : req.user._id,
+            ...req.body
+            
 
         })
+        
         await newItem.save()
         res.status(201).send(newItem)
     } catch(error){
+        console.log(error)
         res.status(400).send({})
     }
 })
