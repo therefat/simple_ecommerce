@@ -1,9 +1,16 @@
 const express = require('express');
 const Item = require('../models/Item') 
 const Auth = require('../middleware/auth')
+const upload = require('../middleware/uploadMiddleware')
 const router = new express.Router() 
 
-router.post('/items',Auth, async(req,res) => {
+router.post('/items',Auth,upload.single('image'), async(req,res) => {
+    if(req.file){
+        console.log(req.file.filename)
+    }
+    // let imagess = req.file ? req.file.filename : null
+    const image = req.file.filename;
+    const url = req.protocol + '://' + req.get('host')
     console.log(req.body)
    
     console.log(req.user._id)
@@ -11,8 +18,9 @@ router.post('/items',Auth, async(req,res) => {
         const newItem = new Item({
             
             owner : req.user._id,
-            ...req.body
-            
+            ...req.body,
+            image: url + '/public/uploads/productImage/' + req.file.filename
+
 
         })
         

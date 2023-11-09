@@ -13,6 +13,7 @@ app.use(express.json())
 app.use(userRouter)
 app.use(itemRouter)
 app.use(cartRouter)
+app.use("/public", express.static("public"));
 
 const port = process.env.PORT
 console.log(port)

@@ -33,7 +33,7 @@ router.post('/users/login', async (req, res) => {
         const token = await user.generateAuthToken()
         
         // res.send({ user, token})
-        res.json({token: token})
+        res.json({token: token,LoggedIn : true})
         console.log('login')
         
     } catch (Error) {
@@ -50,7 +50,7 @@ router.post('/users/logout', Auth, async (req, res) => {
        return token.token !== req.token
       })
         await req.user.save()
-        res.send("logout succeful")
+        res.send({LoggedIn : false})
         console.log('logout succeful')
     } catch (Error) {
         res.status(500).send(Error)
