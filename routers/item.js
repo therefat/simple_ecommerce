@@ -51,10 +51,11 @@ router.get('/items',async(req,res) => {
         res.status(400).send(error)
     }
 })
-router.patch('/items/:id',Auth,async(req,res) => {
+router.patch('/items/:id',Auth,upload.single('image'),async(req,res) => {
     const updates = Object.keys(req.body)
-    const allowdUpdates = ['name','description','category','price']
-    const isValidOperation = updates.every((update) =>              allowedUpdates.includes(update))
+    const url = req.protocol + '://' + req.get('host')
+    const allowedUpdates = ['name','description','category','price']
+    const isValidOperation = updates.every((update) =>    allowedUpdates.includes(update))
    if(!isValidOperation) {
      return res.status(400).send({ error: 'invalid updates'})
 }
@@ -64,6 +65,10 @@ try{
         return res.status(404).send()
     }
     updates.forEach((update) => item[update] = req.body[update])
+    if (req.file) {
+        // If there is an uploaded image, update the image filename
+        item.image = url + '/public/uploads/productImage/' + req.file.filename
+      }
     await item.save()
     res.send(item)
 } catch(error){
