@@ -26,7 +26,17 @@ const itemSchema = new mongoose.Schema({
     image : {
         type: String,
         required : true
-    }
+    },
+    attributes : [
+        {
+            att_name  : {
+                type : String
+            },
+            att_price: {
+                type :String
+            }
+        }
+    ]
 },{
     timestamps: true
 })

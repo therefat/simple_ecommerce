@@ -13,7 +13,7 @@ router.post('/users', async (req, res) => {
         res.status(201).send({user, token})
         console.log("accoutn created")
     } catch (error) {
-        res.status(400).send() 
+        res.status(400).send(error) 
         
 
     }
@@ -27,7 +27,7 @@ router.post('/users/login', async (req, res) => {
 
         const user = await User.findByCredentials(req.body.email, req.body.password)
         if(!user){
-            // throw new Error('User dose not match') 
+            throw new Error('User dose not match') 
             
         }
         const token = await user.generateAuthToken()
@@ -37,14 +37,15 @@ router.post('/users/login', async (req, res) => {
         console.log('login')
         
     } catch (Error) {
-        
-        res.status(400).send(Error)
+        console.log(Error.errors)
+        res.status(400).json({errors : Error})
+        // res.send(error)
         
         
     }
 })
 router.post('/users/logout', Auth, async (req, res) => {
-    console.log(req.user,"hh")
+    
     try {
         req.user.tokens =  req.user.tokens.filter((token) => {
        return token.token !== req.token

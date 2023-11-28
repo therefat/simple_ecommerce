@@ -6,20 +6,20 @@ const router = new express.Router()
 
 router.post('/items',Auth,upload.single('image'), async(req,res) => {
     if(req.file){
-        console.log(req.file.filename)
+        
     }
+    console.log(req.body)
     // let imagess = req.file ? req.file.filename : null
     const image = req.file.filename;
     const url = req.protocol + '://' + req.get('host')
-    console.log(req.body)
-   
-    console.log(req.user._id)
+    
     try{
         const newItem = new Item({
             
             owner : req.user._id,
             ...req.body,
-            image: url + '/public/uploads/productImage/' + req.file.filename
+            image: url + '/public/uploads/productImage/' + req.file.filename, 
+            
 
 
         })
@@ -31,9 +31,9 @@ router.post('/items',Auth,upload.single('image'), async(req,res) => {
         res.status(400).send({})
     }
 })
-router.get('/items/:id',async(req,res) => {
+router.get('/items/:name',async(req,res) => {
     try{
-        const item = await Item.findOne({_id: req.params.id})
+        const item = await Item.findOne({name: req.params.name})
         if(!item){
             res.status(404).send({error: "Item not found"})
         }
