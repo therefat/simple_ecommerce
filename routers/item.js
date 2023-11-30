@@ -37,7 +37,8 @@ router.get('/items/:name',async(req,res) => {
         if(!item){
             res.status(404).send({error: "Item not found"})
         }
-        res.status(200).send(item)
+        console.log(item)
+        res.status(200).json({success: true,item : item})
     }catch(error){
         res.status(400).send(error)
     }
